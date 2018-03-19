@@ -1,0 +1,93 @@
+#include<iostream>
+using namespace std;
+#define MAX 100000 /*定义数组的最大长度*/
+int main()
+{
+	int low = 0, high, n; /*数组最左边变量low 和 最右边变量high 以及数组长度n*/
+	int a[MAX];
+	int i = 0, f;
+	cout << "请输入数据数目和你想找的数据" << endl;
+	while (cin >> n) /*输入不为空，进行查询*/
+	{
+		cin >> f; /*输入想找的数据f*/
+		high = n - 1;
+		cout << "随机产生的数据为" << endl;
+		for (i = 0; i < n; i++) /*将产生的随机数存入数组*/
+		{
+			a[i] = ((rand() << 15) | rand()) % MAX; /*rand（）函数产生的数不足100000，
+			除去符号位只有十五位二进制数，先向左移位再和自己做逻辑按位或运算，然后对100000求余*/
+			printf(" %d ", a[i]); /*打印数组*/
+
+		}
+		cout << endl << endl << endl; /*换行*/
+		cout << endl << endl << endl;
+		cout << endl << endl << endl;
+		cout << endl << endl << endl;
+		void QuickSort(int a[], int p, int r); /*由于二分查找需要排序好的序列，因此用快速排序进行排序*/
+		QuickSort(a, 1, n); /*调用快速排序函数*/
+		printf(" 排序后的数据 :");/*打印排序后的数组*/
+		for (int i = 0; i < n; i++)
+			printf("%d,", a[i]);
+		printf("\n");
+		cout << endl;
+		int mid;/*对排序好的数组进行查找*/
+		while (low <= high)/*当左边界小于右边界及数组还未查询结束*/
+		{
+			mid = (low + high) / 2;/*取数组的中间值*/
+			if (a[mid] == f)/*进行比较*/
+			{
+				cout << "找到的数据位置为 " << mid + 1 << endl;/*相等则返回位置*/
+				break; /*跳出循环查询结束*/
+			}
+			if (a[mid] > f)/*中间值大于所要查找的值时将中间值赋给右边界继续查询*/
+			{
+				high = mid - 1;
+			}
+			else/*中间值小于所要查找的值时将中间值赋给左边界继续查询*/
+			{
+				low = mid + 1;
+			}
+		}
+		if (low > high)/*左边界大于右边界查询结束，返回未查询到数值*/
+		{
+			cout << "数据不能找到！" << endl;
+		}
+		cout << "请输入数据数目和你想找的数据" << endl; /*再次进行查询*/
+		low = 0;
+		i = 0;
+	}
+	return 0;
+}
+
+void QuickSort(int a[], int p, int r) /*快速排序算法*/
+{
+	int Partition(int a[], int p, int r); /**/
+	if (p<r) /*左小于右，数组未排序完*/
+	{
+		int q = Partition(a, p, r); /*q为*/
+		QuickSort(a, p, q - 1); /*对左半段排序*/
+		QuickSort(a, q + 1, r); /*对右半段排序*/
+	}
+}
+
+int Partition(int a[], int p, int r) /*Partition*/
+{
+	int i = p - 1;/**/
+	int x = a[r - 1]; /**/
+	for (int j = p; j<r; j++) /**/
+	{
+		if (a[j - 1] <= x) /**/
+		{
+			i = i + 1; /**/
+			int temp; /**/
+			temp = a[j - 1];
+			a[j - 1] = a[i - 1];
+			a[i - 1] = temp;
+		}
+	}
+	int temp; /**/
+	temp = a[i]; /**/
+	a[i] = a[r - 1];
+	a[r - 1] = temp;
+	return i + 1; /**/
+}
